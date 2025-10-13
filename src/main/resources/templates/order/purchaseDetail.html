@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>購入詳細画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+ <!--共通ヘッダーを呼び出し -->
+ <div th:replace="fragments/header :: header"></div>
+
+ <h2>購入詳細画面</h2>
+	<div class="container">
+	    <!-- 受け取り場所 -->
+	    <section class="shipping-info">
+			
+	        
+	        <form th:action="@{/order/confirm}" method="post">
+			  <div>＜受け取り場所＞</div>
+				<div class="personalinfo">
+				  <label>名前: <br><input type="text" name="name" required></label><br>
+				  <label>住所: <br><input type="text" name="address" required></label><br>
+				  <label>アパート名: <input type="text" name="apartment"></label><br>
+				  <label>電話番号: <br><input type="text" name="phone" required></label><br>
+				</div> 
+				
+	            <!-- 支払情報 -->
+	            <div>＜支払情報＞</div>
+				<div class="cardlinfo">
+				<div>
+					<label for="cardNumber"></label>
+					<input type="text" id="cardNumber" name="cardNumber" placeholder="カード番号"required>
+			   </div>
+			   <div>
+			   		<label for="cardExpiryDate"></label>
+			   		<input type="text" id="cardExpiryDate" name="cardExpiryDate" placeholder="有効期限 DD/YY" required>
+			   </div>
+			  </div>
+			   
+	            <!-- 確認ボタン -->
+	            <div style="margin-top: 20px;">
+					<form th:action="@{/order/confirm}" method="post">
+	                <button type="submit"class="btn btn-primary">確認</button>
+			       </form>
+	            </div>
+	       </form>
+	   </section>
+
+	</div> 
+ <!-- 共通フッターを呼び出し -->
+ <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
+
+<style>
+	.personalinfo {
+		width: 250px;
+	    height: auto;
+	    border: 1px solid #ddd;
+		border-radius: 8px;
+		margin-bottom: 20px;
+		margin-left: 30px;
+		padding:10px;
+	}
+		
+	.cardlinfo {
+		width: 250px;
+	    height: auto;
+		border: 1px solid #ddd;
+	    border-radius: 8px;
+		margin-bottom: 20px;
+		margin-left: 30px;
+		padding:10px;
+	}
+	.btn-primary {
+		padding: 8px 10px;
+	    margin-right: 10px;
+		margin-bottom: 40px;
+		background-color: rgb(0, 0, 160);
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+			  
+			}			
+				
+				
+</style>

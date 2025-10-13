@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ヘッダー</title>
+
+</head>
+<body>
+
+　<header th:fragment="header">
+	<div class="header-container" style="display: flex; justify-content: space-between; align-items: center;">
+	        <!-- 左側 -->
+	        <div class="left">
+	            <span class="site-name">Cytech EC.</span>
+	            <form th:action="@{/productsearch}" method="get" style="display:inline;">
+	                <input type="text" name="keyword" placeholder="商品名">
+	                <select name="categoryId">
+	                    <option value="">ファッション</option>
+						<option th:each="c : ${categories}" 
+						            th:value="${c.categoryId}" 
+						            th:text="${c.categoryName}"
+						            th:selected="${c.categoryId == selectedCategory}">
+						    </option>
+	                </select>
+	                <button type="submit">検索</button>
+	            </form>
+	        </div>
+
+	        <!-- 右側 -->
+	        <div class="right">
+	            <a th:href="@{/mypage}" class="btnprimary">マイページ</a>
+	            <span th:text="${session.userName}">ユーザーネーム:</span>
+	            <a th:href="@{/login}" class="login">ログアウト</a>
+	        </div>
+	    </div>
+	    <hr>
+	</header>
+</body>
+</html>
+

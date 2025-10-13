@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Top画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!--共通ヘッダーを呼び出し -->
+	<div th:replace="fragments/header :: header"></div>
+	
+	<h2>Top画面</h2>
+	<div>
+	        <ul>
+	            <!-- products をループ -->
+	            <a th:each="product : ${products}">
+					
+	                <!-- 画像クリックで商品詳細ページへ -->
+	                <a th:href="@{'/product/detail/' + ${product.productId}}">
+	                    <img th:src="@{/images/{file}(file=${product.imgPath})}" 
+	                         th:alt="${product.productName}" 
+	                         width="200"/>
+	                </a>
+	            </a>
+	        </ul>
+	    </div>
+	<!-- 共通フッターを呼び出し -->
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品一覧画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	  
+ <!--共通ヘッダーを呼び出し -->
+ <div th:replace="fragments/header :: header"></div>
+						
+　<h2>商品一覧画面</h2>						
+ 			
+	<div class="product-list">			
+	　<div th:each="product : ${products}" class="product-card">	
+				
+		<!-- 1. 画像 -->			
+		<a th:href="@{/product/detail/{id}(id=${product.productId})}">			
+		<img th:src="@{/images/{file}(file=${product.imgPath})}" alt="商品画像">			
+		</a>			
+						
+		<!-- 2. 商品名 -->			
+		<p th:text="'商品名:' +${product.productName}"></p>			
+						
+		<!-- 3. メーカー名 -->			
+		<p th:text="'メーカー名:' +${product.company.companyName}"></p>			
+						
+		<!-- 4. 価格（税込） -->			
+		<p th:text="'￥' +${product.price}"></p>			
+		<p th:text="'￥' +${product.price}* 1.1+'(税込)'"></p>			
+						
+	　</div>			
+	</div>	
+ <!-- 共通フッターを呼び出し -->
+ <div th:replace="fragments/footer :: footer"></div>		
+</body>
+</html>
+
+<style>
+	body {
+	    font-family: "Yu Gothic", "メイリオ", sans-serif;
+	    background-color: #fafafa;
+	  }
+
+	  .product-list {
+	    display: flex;
+	    flex-wrap: wrap;
+	    justify-content: center; /* 中央寄せ */
+	    gap: 20px;
+	    padding: 20px;
+	  }
+
+	  .product-card {
+	    background: #fff;
+	    border: 1px solid #ddd;
+	    border-radius: 10px;
+	    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	    width: 220px;
+	    text-align: center;
+	    transition: transform 0.2s, box-shadow 0.2s;
+	  }
+
+	  .product-card:hover {
+	    transform: translateY(-5px);
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	  }
+
+	  .product-card img {
+	    width: 100%;
+	    height: 180px;
+	    object-fit: cover;
+	    border-radius: 10px 10px 0 0;
+	  }
+
+	  .product-info {
+	    padding: 10px;
+	  }
+
+	  .product-name {
+	    font-weight: bold;
+	    margin-bottom: 5px;
+	  }
+
+	  .product-company {
+	    color: #666;
+	    font-size: 0.9em;
+	    margin-bottom: 10px;
+	  }
+
+	  .product-price {
+	    color: #444;
+	    font-weight: bold;
+	  }
+
+	  .product-price-tax {
+	    color: #e74c3c;
+	    font-size: 0.9em;
+	  }
+</style>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品詳細</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+　<!--共通ヘッダーを呼び出し -->
+　<div th:replace="fragments/header :: header"></div>
+	
+  <h2>商品詳細画面</h2>
+	<div class="container">
+
+	    <!-- メインエリア -->
+	    <div class="main">
+	        <div class="product-info">
+	            <img th:src="@{/images/{file}(file=${product.imgPath})}" th:alt="${product.productName}" />
+
+	            <div>
+	                <p>商品名:<span th:text="${product.productName}"></p>
+	                <p>メーカー名: <span th:text="${product.company.companyName}"></span></p>
+	                <p>価格: <span th:text="${product.price}"></span> 円</p>
+	                <p>税込価格: <span th:text="${product.price }* 1.1"></span> 円</p>
+	                <p>在庫数: <span th:text="${product.stock}"></span></p>
+	            </div>
+	        </div>
+
+	        <!-- 口コミ -->
+	        <div class="reviews">
+	            <h3>口コミ</h3>
+				<div th:if="${#lists.isEmpty(reviews)}">
+				    <p>まだ口コミはありません。</p>
+				</div>
+	            <div th:each="r : ${reviews}">
+					<p>ユーザー: 
+					        <span th:text="${r.dummyUserName != null ? r.dummyUserName : r.userId}">名無し</span>
+					</p>
+	                <p>コメント:<span th:text="${r.comment}"></span></p>
+	                <p>評価: <span th:text="${r.rating}"></span> / 5</p>
+	                <p th:text="${#temporals.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
+	            </div>
+	        </div>
+
+	        <!-- ボタン -->
+	        <div class="buttons">
+				<a th:href="@{/order/purchase(id=${product.productId})}">
+				    <button type="button">単品購入</button>
+				</a>
+	            <a th:href="@{/products/{id}/review/new(id=${product.productId})}">
+					<button type="button">口コミ投稿</button>
+				</a>
+	        </div>
+	    </div>
+
+	    <!-- サイドバー -->
+	    <div class="sidebar">
+	        <form th:action="@{/cart/add/{id}(id=${product.productId})}" method="post">
+					<button type="submit" class="btn-primary">カートに入れる</button>
+		
+	            <p>数量:
+	                <select name="quantity">
+	                    <option th:each="i : ${#numbers.sequence(1, 10)}"
+	                            th:value="${i}" th:text="${i}"></option>
+	                </select>
+	            </p>
+	            <p>価格: <span th:text="${product.price}"></span> 円</p>
+	            <p>税込価格: <span th:text="${product.price} * 1.1"></span> 円</p>
+	            <p>在庫表示: <span th:text="${product.stock}"></span></p>
+	        </form>
+	    </div>
+
+	</div>
+  <!-- 共通フッターを呼び出し -->
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
+
+<style>
+	.container {
+	  display: flex;             /* 横並びにする */
+	  justify-content: space-between;
+	  align-items: flex-start;
+	  gap: 20px;                 /* メインとの間に余白 */
+	  margin: 20px;
+	}
+
+	/* メインコンテンツ */
+	.main {
+	  flex: 3;                   /* 全体の3/4くらいの幅を取る */
+	}
+
+	/* サイドバー */
+	.sidebar {
+	  flex: 1;                   /* 全体の1/4くらいの幅 */
+	  border: 1px solid #ccc;
+	  padding: 10px;
+	  background-color: #f9f9f9;
+	  position: sticky;           /* スクロールしても固定したい場合 */
+	  top: 20px;
+	}
+
+	/* 商品情報やボタンの整え */
+	.product-info {
+	  display: flex;
+	  gap: 20px;
+	  align-items: flex-start;
+	}
+
+	.product-info img {
+	  width: 250px;
+	  height: auto;
+	  border: 1px solid #ddd;
+	  border-radius: 8px;
+	}
+
+	.buttons {
+	  margin-top: 20px;
+	}
+
+	.buttons a button {
+	  padding: 8px 16px;
+	  margin-right: 10px;
+	  background-color: rgb(0, 0, 160);
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	}
+
+	.buttons a button:hover {
+	  background-color: #444;
+	}
+	
+	.sidebar .btn-primary {
+	  padding: 8px 10px;
+	  margin-right: 10px;
+	  background-color: rgb(0, 0, 160);
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	}
+		
+		
+</style>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>口コミ投稿画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+ <!--共通ヘッダーを呼び出し -->
+ <div th:replace="fragments/header :: header"></div>
+
+   <h2>口コミ投稿フォーム</h2>
+
+	  <form method="post" th:action="@{'/products/' + ${productId} + '/review/new'}">
+	    <div>
+	      ユーザー名（任意）:<input type="text" name="userName"/>
+	    </div>
+
+	    <div>
+	      評価:
+	      <select name="rating">
+	        <option value="1">1（最低）</option>
+	        <option value="2">2</option>
+	        <option value="3">3</option>
+	        <option value="4">4</option>
+	        <option value="5">5（最高）</option>
+	      </select>
+	    </div>
+
+	    <div>
+	      メールアドレス:<input type="email" name="email"/>
+	    </div>
+
+	    <div>
+	      コメント:<br/>
+	      <textarea name="comment" rows="3" cols="40"></textarea>
+	    </div>
+
+	    <div>
+	      画像:<input type="file" name="image"/>
+	    </div>
+
+	    <div style="text-align:center; margin-top:20px;">
+	      <button type="submit" class="btn btn-primary">投稿</button>
+	    </div>
+	  </form>
+	  
+ <!-- 共通フッターを呼び出し -->
+ <div th:replace="fragments/footer :: footer"></div>	
+
+</body>
+</html>
+
+<style>
+	.btn-primary {
+			  padding: 8px 10px;
+			  margin-right: 10px;
+			
+			  background-color: rgb(0, 0, 160);
+			  color: white;
+			  border: none;
+			  border-radius: 5px;
+			  cursor: pointer;
+			  
+			}
+</style>

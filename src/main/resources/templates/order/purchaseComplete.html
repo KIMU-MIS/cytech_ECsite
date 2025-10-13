@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>購入完了画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+ <!--共通ヘッダーを呼び出し -->
+ <div th:replace="fragments/header :: header"></div>
+ 
+    <h1 class="top">購入完了画面</h1>
+    <h2 class="message">注文完了</h2>
+	
+  <div class="container">
+	<!-- 単品購入モード -->
+	<div th:if="${mode == 'single'}" class="single">
+	    <a>注文商品</a>
+	         <p>画像: </p>
+		     <p><img th:src="@{/images/{file}(file=${item.product.imgPath})}" th:alt="${product.productName}" /></p>
+	         <p>商品名: <span th:text="${product.productName}"></span></p>
+	         <p>数量: <span th:text="${product.quantity}"></span>個 
+			（税込: <span th:text="${#numbers.formatInteger(product.price * 1.1, 0)}"></span> 円）</p>
+	       
+	</div>
+
+	<!-- カート購入モード -->
+	<div th:if="${mode == 'cart'}" class="cart">
+	   <a>注文商品</a>
+	
+	    <div th:each="item : ${cartItems}">
+			<p>画像:</p>
+				<p><img th:src="@{/images/{file}(file=${item.product.imgPath})}"  th:alt="${item.product.productName}" /></p>
+	        <p>商品名:<span th:text="${item.product.productName}"></span>  </p>
+	        <p>数量:<span th:text="${item.quantity}"></span> 個 
+	        （税込: <span th:text="${item.product.price * 1.1 * item.quantity}"></span> 円） </p>
+	    </div>
+
+   </div>
+	<p>合計（税込）: <span th:text="${#numbers.formatInteger(total, 0)}* 1.1"></span> 円</p>
+	
+	<p>お名前: <span th:text="${orderForm.name}"></span></p>
+	<p>お届け先住所: <span th:text="${orderForm.address}"></span> <span th:text="${orderForm.apartment}"></span></p>
+	
+	<p><a th:href="@{/toppage}" class="btn btn-primary">トップページへ戻る</a></p>
+  </div>
+ <!-- 共通フッターを呼び出し -->
+ <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
+
+<style>
+	.top {
+		  margin-left:15px;
+	}
+	.message {
+		  position: absolute;
+		  top: 50%;
+		  right: 25%; /* 右端からの余白 */
+		  transform: translateY(-50%);
+	}
+			
+	.container {
+		margin-left:30px;			  
+					  
+					  
+	}
+	.single img {
+		 width: 250px;
+		 height: auto;
+		 border: 1px solid #ddd;
+		 border-radius: 8px;
+	     margin-left: 30px;
+									   
+	}
+	.cart img {
+			  width: 250px;
+			  height: auto;
+			  border: 1px solid #ddd;
+			  border-radius: 8px;
+			  margin-left: 30px;
+			   
+	}
+
+	.btn-primary {
+			padding: 8px 10px;
+			margin-right: 10px;
+		    margin-bottom: 40px;
+			background-color: rgb(0, 0, 160);
+		    color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+					  
+	}
+</style>

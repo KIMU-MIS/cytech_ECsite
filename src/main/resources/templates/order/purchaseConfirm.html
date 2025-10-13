@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>購入確認画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+ <!--共通ヘッダーを呼び出し -->
+ <div th:replace="fragments/header :: header"></div>
+
+	<h2>購入確認画面</h2>
+
+	<p>名前: <span th:text="${orderForm.name}"></span></p>
+	<p>住所: <span th:text="${orderForm.address}"></span></p>
+	<p>アパート名: <span th:text="${orderForm.apartment}"></span></p>
+	
+	<!--単品購入モード-->
+	     <div th:if="${mode == 'single'}">
+	        <p>商品名: <span th:text="${product.productName}"></span></p>
+	        <p>価格: <span th:text="${#numbers.formatInteger(product.price * 1.1, 1, 'COMMA')}"></span> 円（税込）</p>
+
+	 <!-- hiddenで商品情報を保持 -->
+	        <input type="hidden" name="productId" th:value="${product.productId}" />
+	        <input type="hidden" name="quantity" value="1" />
+	      </div>
+		  
+　　<!--カート購入モード-->
+        <div th:if="${mode == 'cart'}">
+	      
+	        <div th:each="item : ${cartItems}">
+	          <p>商品名: <span th:text="${item.product.productName}"></span> </p>
+	          <p>個数: <span th:text="${item.quantity}"></span> 個  </p>
+	          <p>金額: <span th:text="${item.product.price * 1.1 * item.quantity}"></span> 円<p>
+	        </div>
+	       
+		 </div>
+	<!-- hiddenで保持 -->
+	   <input type="hidden" th:field="*{orderForm.name}" />
+	   <input type="hidden" th:field="*{orderForm.address}" />
+	   <input type="hidden" th:field="*{orderForm.apartment}" />
+	   
+	<p>合計金額（税込）: <span th:text="${total}*1.1"></span> 円</p>
+
+	
+	<div class="button-container">
+	  <!-- 戻るボタン（編集用） -->
+	  <form th:action="@{/order/purchase}" method="get">
+	     <button type="submit"  class="btn btn-primary">編集</button>
+	  </form>
+
+	  <!-- 確定ボタン -->
+	  <form th:action="@{/order/complete}" method="post">
+	    <input type="hidden" name="name" th:value="${orderForm.name}">
+	    <input type="hidden" name="address" th:value="${orderForm.address}">
+	    <input type="hidden" name="apartment" th:value="${orderForm.apartment}">
+	    <input type="hidden" name="phone" th:value="${orderForm.phone}">
+	    <input type="hidden" name="paymentMethod" th:value="${orderForm.paymentMethod}">
+	    <button type="submit"class="btn btn-primary">購入</button>
+	  </form>
+	  </div>
+	  
+ <!-- 共通フッターを呼び出し -->
+ <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
+
+<style>
+	.button-container {
+	  display: flex;              /* 横並びに */
+	  gap: 20px;                  /* ボタン間のすき間 */
+	  margin-top: 20px;           /* 上に少し余白 */
+	  margin-left: 20px;
+	}
+	.btn-primary {
+		  padding: 8px 10px;
+		  margin-right: 10px;
+		  margin-bottom: 40px;
+		  background-color: rgb(0, 0, 160);
+		  color: white;
+		  border: none;
+		  border-radius: 5px;
+		  cursor: pointer;
+		  
+		}
+</style>

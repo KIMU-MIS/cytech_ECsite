@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+.header-container {
+  color: ghostwhite;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.footer-container {
+  color: ghostwhite;
+  background-color: black;
+
+}
+
+.right .btnprimary {
+  padding: 8px 10px;
+  margin-right: 10px;
+  margin-bottom: 40px;
+  background-color: rgb(0, 0, 160);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.right .login {
+  color: ghostwhite;
+}	

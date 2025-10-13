@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>カート詳細画面</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <!--共通ヘッダーを呼び出し -->
+	<div th:replace="fragments/header :: header"></div>
+	 
+	<h2>カート詳細画面</h2>
+	<div class="container">
+
+		 <!-- メインエリア（商品ごとのカード表示） -->
+		    <div class="main">
+				 <!--th:each を使うと、cartItems を1件ずつ取り出して繰り返し処理が可能-->
+		        <div th:each="item : ${cartItems}" class="product-info">
+					
+		            <img th:src="@{/images/{file}(file=${item.product.imgPath})}" 
+		                 th:alt="${item.product.productName}" />
+
+		            <div>
+		                <p th:text="${item.product.productName}">商品名</p>
+		                
+		                <div>
+		                    数量:
+		                    <form th:action="@{/cart/update}" method="post">
+		                        <input type="hidden" name="productId" th:value="${item.product.productId}" />
+		                        <select name="quantity" 
+		                                th:value="${item.quantity}">
+		                            <option th:each="i : ${#numbers.sequence(1, 10)}"
+		                                    th:value="${i}" 
+		                                    th:text="${i}"
+		                                    th:selected="${i == item.quantity}">
+		                            </option>
+		                        </select>
+		                       
+		                    </form>
+		                </div>
+
+		                <form th:action="@{/cart/delete}" method="post">
+		                    <input type="hidden" name="productId" th:value="${item.product.productId}" />
+		                    <button type="submit" class="remove-row">削除</button>
+		                </form>
+
+		                <p>価格: <span th:text="${item.product.price}"></span> 円</p>
+		                <p>税込価格: <span th:text="${#numbers.formatDecimal(item.product.price * 1.1, 0, 'COMMA', 0, 'POINT')}"></span> 円</p>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- サイドバー（カート全体の合計） -->
+		    <div class="sidebar">
+		        <p>合計個数: <span th:text="${totalQuantity}"></span> 点</p>
+		        <p>合計金額: <span th:text="${totalPrice}"></span> 円</p>
+		        <p>税込合計: <span th:text="${totalTaxPrice}"></span> 円</p>
+		        
+					<form th:action="@{/order/purchase}" method="get">
+					    <button type="submit" class="btn btn-primary">レジに進む</button>
+					</form>
+					       
+		    </div>
+		</div>
+  <!-- 共通フッターを呼び出し -->
+	<div th:replace="fragments/footer :: footer"></div>	
+</body>
+</html>
+
+<style>
+	.container {
+		  display: flex;             /* 横並びにする */
+		  justify-content: space-between;
+		  align-items: flex-start;
+		  gap: 20px;                 /* メインとの間に余白 */
+		  margin: 20px;
+		}
+
+		/* メインコンテンツ */
+		.main {
+		  flex: 3;                   /* 全体の3/4くらいの幅を取る */
+		}
+
+		/* サイドバー */
+		.sidebar {
+		  flex: 1;                   /* 全体の1/4くらいの幅 */
+		  border: 1px solid #ccc;
+		  padding: 10px;
+		  background-color: #f9f9f9;
+		  position: sticky;           /* スクロールしても固定したい場合 */
+		  top: 20px;
+		}
+
+		/* 商品情報やボタンの整え */
+		.product-info {
+		  display: flex;
+		  gap: 20px;
+		  align-items: flex-start;
+		}
+
+		.product-info img {
+		  width: 250px;
+		  height: auto;
+		  border: 1px solid #ddd;
+		  border-radius: 8px;
+		}
+
+		.buttons {
+		  margin-top: 20px;
+		}
+
+		.buttons a button {
+		  padding: 8px 16px;
+		  margin-right: 10px;
+		  background-color: rgb(0, 0, 160);
+		  color: white;
+		  border: none;
+		  border-radius: 5px;
+		  cursor: pointer;
+		}
+
+		.buttons a button:hover {
+		  background-color: #444;
+		}
+		
+		.sidebar .btn-primary {
+		  padding: 8px 10px;
+		  margin-right: 10px;
+		  background-color: rgb(0, 0, 160);
+		  color: white;
+		  border: none;
+		  border-radius: 5px;
+		  cursor: pointer;
+		}
+	.remove-row {
+	    background-color: rgb(247, 9, 91);
+	    color: white;
+	    border: none;
+	    border-radius: 10%;
+	    width: 50px;
+	    height: 20px;
+	    font-size: 18px;
+	    line-height: 1;
+	    cursor: pointer;
+	}
+</style>
