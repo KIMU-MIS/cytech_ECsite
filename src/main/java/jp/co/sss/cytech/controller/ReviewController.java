@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +37,17 @@ public class ReviewController {
 
 	
     @PostMapping("/products/{productId}/review/new")
-         public String submitReview(@PathVariable Integer productId,
-    		                        @ModelAttribute ReviewForm form,
-                                    HttpSession session) {
+         public String submitReview(@Validated @ModelAttribute ReviewForm form,
+        		                    BindingResult bindingResult,
+        		                    @PathVariable Integer productId,
+    		                        HttpSession session) {
     	
+    	    if (bindingResult.hasErrors()) {
+               // 入力エラー時の処理（フォームに戻すなど）
+    	    	bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));//サーバー表示
+               return "shop/reviewForm";
+            }
+    	    
     	      Review review = new Review();
     	
     	     // ログインしている場合は userId をセット

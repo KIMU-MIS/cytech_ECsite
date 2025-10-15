@@ -1,11 +1,23 @@
 package jp.co.sss.cytech.form;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class ReviewForm {
 
+	@NotBlank(message = "任意のユーザー名を入力してください")
 	private String userName;
+	
     private Integer rating;
+    
+    @NotBlank(message = "メールアドレスを入力してください")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+    		 message = "メールアドレスの形式が正しくありません")
     private String email;
+    
+    @NotBlank(message = "コメントを入力してください")
     private String comment;
+    
     private String imagePath;
     
     

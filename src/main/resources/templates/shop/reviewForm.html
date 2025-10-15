@@ -11,9 +11,10 @@
 
    <h2>口コミ投稿フォーム</h2>
 
-	  <form method="post" th:action="@{'/products/' + ${productId} + '/review/new'}">
+	  <form method="post" th:action="@{'/products/' + ${productId} + '/review/new'}" th:object="${reviewForm}">
 	    <div>
-	      ユーザー名（任意）:<input type="text" name="userName"/>
+	      ユーザー名（任意）:<input type="text"  th:field="*{userName}"/>
+		  <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color:red"></div>
 	    </div>
 
 	    <div>
@@ -28,12 +29,14 @@
 	    </div>
 
 	    <div>
-	      メールアドレス:<input type="email" name="email"/>
+	      メールアドレス:<input type="email"  th:field="*{email}"/>
+		  <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
 	    </div>
 
 	    <div>
 	      コメント:<br/>
-	      <textarea name="comment" rows="3" cols="40"></textarea>
+	      <textarea  th:field="*{comment}" rows="3" cols="40"></textarea>
+		  <div th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" style="color:red"></div>
 	    </div>
 
 	    <div>

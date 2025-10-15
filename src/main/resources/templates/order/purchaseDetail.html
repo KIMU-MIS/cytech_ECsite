@@ -15,13 +15,19 @@
 	    <section class="shipping-info">
 			
 	        
-	        <form th:action="@{/order/confirm}" method="post">
+	        <form th:action="@{/order/confirm}" method="post" th:object="${orderForm}">
 			  <div>＜受け取り場所＞</div>
 				<div class="personalinfo">
-				  <label>名前: <br><input type="text" name="name" required></label><br>
-				  <label>住所: <br><input type="text" name="address" required></label><br>
-				  <label>アパート名: <input type="text" name="apartment"></label><br>
-				  <label>電話番号: <br><input type="text" name="phone" required></label><br>
+				<p><label>名前: <br><input type="text" th:field="*{name}">
+				<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div></label><br></p> 
+				
+				 <p><label>住所: <br><input type="text" th:field="*{address}">
+				<div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color:red"></div></label><br></p>
+				
+				 <p><label>アパート名: <input type="text" name="apartment"></p>
+				
+				 <p><label>電話番号: <br><input type="text" th:field="*{phone}">
+				<div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color:red"></div></label><br></label><br></p>
 				</div> 
 				
 	            <!-- 支払情報 -->
@@ -29,11 +35,13 @@
 				<div class="cardlinfo">
 				<div>
 					<label for="cardNumber"></label>
-					<input type="text" id="cardNumber" name="cardNumber" placeholder="カード番号"required>
+					<input type="text" id="cardNumber" th:field="*{cardNumber}"placeholder="カード番号">
+					<div th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}" style="color:red"></div></label><br>
 			   </div>
 			   <div>
 			   		<label for="cardExpiryDate"></label>
-			   		<input type="text" id="cardExpiryDate" name="cardExpiryDate" placeholder="有効期限 DD/YY" required>
+			   		<input type="text" id="cardExpiryDate" th:field="*{cardExpiryDate}" placeholder="有効期限 DD/YY" >
+					<div th:if="${#fields.hasErrors('cardExpiryDate')}" th:errors="*{cardExpiryDate}" style="color:red"></div></label><br>
 			   </div>
 			  </div>
 			   

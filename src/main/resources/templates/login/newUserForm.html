@@ -7,14 +7,21 @@
 <body>
 	
 	<h2 class="newlogin">ユーザー新規登録画面</h2>
-		<form method="post" th:action="@{/register}" class="logincorner">
+		<form method="post" th:action="@{/register}" class="logincorner" th:object="${newUserForm}">
 			
-		   <p>ユーザー名<input type="text" name="userName"/></p>
-		   <p>メールアドレス<input type="email" name="email"/></p>
-		   <p>パスワード<input type="password" name="passwords"/></p>
-		   <p>パスワード（確認用）<input type="password" name="confirmPasswords"/></p>
+		   <p>ユーザー名<input type="text" th:field="*{userName}" />
+		<div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color:red"></div></p>
+		
+		   <p>メールアドレス<input type="email" th:field="*{email}" />
+		<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div></p>
+		
+		   <p>パスワード<input type="password" th:field="*{passwords}" />
+		<div th:if="${#fields.hasErrors('passwords')}" th:errors="*{passwords}" style="color:red"></div></p>
+		
+		   <p>パスワード（確認用）<input type="password" th:field="*{confirmPasswords}"/>
+		<div th:if="${#fields.hasErrors('confirmPasswords')}" th:errors="*{confirmPasswords}" style="color:red"></div></p>
 		      <input type="submit" value="登録" class="btn-primary"/>
-			 <a th:href="@{/login}"><button class="btn-primary2">戻る</button></a>
+			 <a th:href="@{/login}" class="btn-primary2">戻る</a>
 		</form>
 </body>
 </html>

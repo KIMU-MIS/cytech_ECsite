@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +48,7 @@ public class OrderController {
 
               List<CartItemDto> cartItems = new ArrayList<>();
 
+              
               if (cart != null && !cart.isEmpty()) {
                  for (Map.Entry<Integer,Integer> entry : cart.entrySet()) {
                    Product p = productRepository.findById(entry.getKey()).orElse(null);
@@ -63,14 +66,21 @@ public class OrderController {
            
            return "order/purchaseDetail";
       }
-
-	 
+    
+	
 	// 確認画面へ遷移
 	@PostMapping("/confirm")
-          public String confirm(@ModelAttribute OrderForm orderForm,
-                          @SessionAttribute("cart") Map<Integer,Integer> cart,
-                          Model model) {
+          public String confirm(@Validated @ModelAttribute OrderForm orderForm,
+        		                BindingResult bindingResult,
+                                @SessionAttribute("cart") Map<Integer,Integer> cart,
+                                Model model) {
 
+		       if (bindingResult.hasErrors()) {
+                  // 入力エラー時の処理（フォームに戻すなど）
+		    	   bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));//サーバー表示
+      	          return "order/purchaseDetail";
+               }
+		       
                List<CartItemDto> cartItems = new ArrayList<>();
                for (Map.Entry<Integer,Integer> entry : cart.entrySet()) {
                    Product p = productRepository.findById(entry.getKey()).orElse(null);

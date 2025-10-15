@@ -32,7 +32,7 @@ import jp.co.sss.cytech.service.CartService;
 public class CartController {
 	
 	private final ProductRepository productRepository;
-	private  CartRepository CartRepository;
+	private  CartRepository cartRepository;
 
     public CartController(ProductRepository productRepository) {
         this.productRepository = productRepository;
